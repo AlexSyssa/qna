@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :questions
-  # get "up" => "rails/health#show", as: :rails_health_check
+  root "posts#index"
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  resources :questions do
+    resources :answers
+  end
 end
