@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root "posts#index"
-
-  resources :questions do
-    resources :answers
+  devise_for :users
+  resources :questions, only: %i[ index show new create update destroy] do
+    resources :answers, shallow: true, only: %i[ index show new create update destroy ]
   end
+  root to: "questions#index"
 end
