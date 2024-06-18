@@ -7,6 +7,9 @@ feature 'User can view a list of questions', %q{
 
   given!(:user) { create(:user) }
   given!(:questions) { create_list(:question, 3) }
+  given!(:question) { create(:question) }
+  given!(:answers) { create_list(:answer, 3, question: question) }
+
 
   scenario 'User views a list of questions' do
     visit questions_path
@@ -15,5 +18,14 @@ feature 'User can view a list of questions', %q{
       expect(page).to have_field("Title", :with => "#{question.title}")
       expect(page).to have_content question.body
     end
+  end
+
+  scenario 'Answers for this question' do
+    visit questions_path
+
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+    end
+
   end
 end
