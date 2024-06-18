@@ -6,9 +6,9 @@ class AnswersController < ApplicationController
   def show
   end
 
-  # def new
-  #   @answer = @question.answers.new
-  # end
+  def new
+    @answer = @question.answers.new
+  end
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -16,7 +16,6 @@ class AnswersController < ApplicationController
     if @answer.save
       flash[:notice] = 'Answer was successfully created.'
     else
-      render :new
       flash[:alert] = @answer.errors.full_messages if @answer.errors.present?
     end
   end

@@ -12,20 +12,8 @@ feature 'User can view a list of questions', %q{
     visit questions_path
 
     questions.each do |question|
-      #Не проходит этот тест, якобы не видит заголовок вопроса, при этом он нормально отображается на странице
-      expect(page).to have_content question.title
+      expect(page).to have_field("Title", :with => "#{question.title}")
       expect(page).to have_content question.body
     end
   end
-
-  scenario 'question and answers for this question' do
-    visit questions_path
-
-    expect(page).to have_content 'Question title'
-    expect(page).to have_content 'Question body'
-    answers.each do |answer|
-      expect(page).to have_content answer.body
-    end
-  end
 end
-

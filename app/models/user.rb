@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -13,5 +11,4 @@ class User < ApplicationRecord
   def author?(object)
     object.user_id == id
   end
-
 end
