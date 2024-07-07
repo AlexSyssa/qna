@@ -14,9 +14,6 @@ gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'slim-rails'
 gem 'devise'
-gem 'twitter-bootstrap-rails'
-gem 'jquery-rails'
-gem 'webpacker', '~> 5.2.1'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

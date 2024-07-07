@@ -1,24 +1,19 @@
-p= button_to 'Log out', destroy_user_session_path, method: :delete
 = render 'shared/errors', resource: @question
+
+p= button_to 'Log out', destroy_user_session_path, method: :delete
 
 .question data-question-id="#{@question.id}"
   = render 'question', question: @question
 
-p= 'Answers:'
-
-.answers
-  - @question.answers.each do |answer|
-    p= answer.body
-
-br
-.answer-errors
+  h4 Answers
+  = render @question.answers
+  br
+  h4 New Answer
   = render 'shared/errors', resource: @answer
+  = form_with model: [@question, @answer], local: true do |f|
+    = f.label :body
+    = f.text_area :body
 
-p= 'New answer'
-= form_with model: [@question, @answer], local: true do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-
-  = f.submit 'Create'
+    = f.submit 'Create'
 
 p= link_to 'Back', root_path
