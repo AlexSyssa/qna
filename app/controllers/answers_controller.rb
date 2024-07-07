@@ -13,6 +13,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user_id = current_user.id
+
     if @answer.save
       flash[:notice] = 'Answer was successfully created.'
     else

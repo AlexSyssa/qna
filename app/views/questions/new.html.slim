@@ -1,11 +1,13 @@
+p= button_to 'Log out', destroy_user_session_path, method: :delete
+
 = render 'shared/errors', resource: @question
 = render 'shared/flash'
 
 = form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
-
-  p= button_to 'Log out', destroy_user_session_path, method: :delete
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+  p= f.submit 'Create'
