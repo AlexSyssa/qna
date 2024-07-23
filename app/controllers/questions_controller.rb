@@ -1,13 +1,14 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_question, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, except: [ :index ]
+  before_action :find_question, only: [ :show, :update, :destroy ]
 
   def index
     @questions = Question.all
   end
 
   def show
-    @answer = @question.answers.new
+    @answer = Answer.new
+    @answers = @question.answers.sort_by_best
   end
 
   def new
@@ -21,6 +22,7 @@ class QuestionsController < ApplicationController
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
+      flash[:alert] = "You can't edited another question."
     end
   end
 

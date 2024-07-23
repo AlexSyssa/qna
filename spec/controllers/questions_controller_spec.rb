@@ -55,7 +55,6 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:question) { create(:question, user: user) }
 
     context 'with valid attributes' do
-
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
@@ -76,7 +75,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-
       it 'does not change question' do
         question.reload
 
@@ -86,7 +84,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders edit view' do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
 
-        expect(response).to render_template :edit
+        response.should render_template('edit')
       end
     end
 
@@ -107,7 +105,6 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:question) { create(:question, user: user) }
 
     context 'author question' do
-
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
@@ -119,7 +116,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'non-author question' do
-
       before { login(other_user) }
 
       it 'non deletes the question' do

@@ -7,13 +7,20 @@ gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
-gem "turbo-rails"
+gem 'jbuilder'
 gem "stimulus-rails"
-gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 gem "bootsnap", require: false
+gem 'bootstrap'
+gem 'net-http'
 gem 'slim-rails'
 gem 'devise'
+gem "twitter-bootstrap-rails"
+gem 'jquery-rails'
+gem "sassc-rails"
+gem 'better_errors', '!= 2.10.0'
+gem "binding_of_caller"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

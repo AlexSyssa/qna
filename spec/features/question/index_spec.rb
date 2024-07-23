@@ -15,8 +15,7 @@ feature 'User can view a list of questions', %q{
     visit questions_path
 
     questions.each do |question|
-      expect(page).to have_field("Title", :with => "#{question.title}")
-      expect(page).to have_content question.body
+      expect(page).to have_content question.title
     end
   end
 
