@@ -11,7 +11,7 @@ p= button_to 'Log out', destroy_user_session_path, method: :delete
   - @question.answers.each do |answer|
     .answers
       p= answer.body
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id  }if current_user&.author?(answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id } if current_user&.author?(answer)
       br
       = "Best Answer" if answer.best
       br

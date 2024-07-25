@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can log out', %q{
+feature 'User can log out', "
   I'd like to be able to log out
-} do
-
+" do
   given(:user) { create(:user) }
   background { sign_in(user) }
 

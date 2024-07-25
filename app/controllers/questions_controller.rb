@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index ]
-  before_action :find_question, only: [ :show, :update, :destroy ]
+  before_action :authenticate_user!, except: [:index]
+  before_action :find_question, only: %i[show update destroy]
 
   def index
     @questions = Question.all
@@ -43,7 +45,7 @@ class QuestionsController < ApplicationController
       @question.destroy
       flash[:notice] = 'Your question successfully updated'
     else
-      flash[:alert] = "Your question could not be destroyed, you are not author of the question"
+      flash[:alert] = 'Your question could not be destroyed, you are not author of the question'
     end
     redirect_to questions_path
   end

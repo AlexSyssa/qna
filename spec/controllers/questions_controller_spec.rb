@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:other_user) { create(:user) }
-  let(:user) { create(:user)}
+  let(:user) { create(:user) }
 
   before { login(user) }
 
@@ -41,7 +43,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.to_not change(Question, :count)
       end
 
       it 're-renders new view' do
@@ -78,7 +82,10 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         question.reload
 
-        expect { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }}.to_not change(question, :title)
+        expect do
+          patch :update,
+                params: { id: question, question: attributes_for(:question, :invalid) }
+        end.to_not change(question, :title)
       end
 
       it 're-renders edit view' do
@@ -101,7 +108,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy'do
+  describe 'DELETE #destroy' do
     let!(:question) { create(:question, user: user) }
 
     context 'author question' do

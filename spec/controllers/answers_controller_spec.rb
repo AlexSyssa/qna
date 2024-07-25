@@ -1,17 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user)}
+  let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:question) { create(:question) }
-
 
   before { login(user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js } }.to change(question.answers, :count).by(1)
+        expect do
+          post :create,
+               params: { answer: attributes_for(:answer), question_id: question,
+                         format: :js }
+        end.to change(question.answers, :count).by(1)
       end
 
       it 'renders create template' do
@@ -22,7 +27,10 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
+        expect do
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) },
+                        format: :js
+        end.to_not change(Answer, :count)
       end
 
       it 'renders create template' do
@@ -65,7 +73,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:answer) { create :answer, user: user, question: question }
 
-    context "User is the author of the answer" do
+    context 'User is the author of the answer' do
       it 'Author deletes the answer from database' do
         expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
@@ -79,7 +87,7 @@ RSpec.describe AnswersController, type: :controller do
     context "User isn't the author of the answer" do
       before { login(other_user) }
       it 'User tries to delete the answer from database' do
-        expect { delete :destroy, params: { id: answer}, format: :js }.not_to change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
 
       it 'redirects to root_path' do

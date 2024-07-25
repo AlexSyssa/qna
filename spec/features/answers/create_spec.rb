@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can give an answer', %q{
+feature 'User can give an answer', '
   In order to share my knowledge
   As an authenticated user
   I want to be able to create answers
-} do
-
+' do
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
@@ -18,7 +19,7 @@ feature 'User can give an answer', %q{
 
     expect(current_path).to eq question_path(question)
     within '.answers' do
-    expect(page).to have_content 'My answer'
+      expect(page).to have_content 'My answer'
     end
   end
 

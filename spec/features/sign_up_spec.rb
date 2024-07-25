@@ -1,16 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', "
   In order to ask questions
   As an unauthenticated user
   I'd like to be able to sign up
-} do
-
+" do
   background { visit new_user_registration_path }
 
   scenario 'User tries to sign up with valid params ' do
-
-    fill_in 'Email', with: "user@mail.ru"
+    fill_in 'Email', with: 'user@mail.ru'
     fill_in 'Password', with: '567890876'
     fill_in 'Password confirmation', with: '567890876'
     click_on 'Sign up'

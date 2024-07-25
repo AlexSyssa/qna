@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature "User is able to delete his answer", %q{
+feature 'User is able to delete his answer', '
   user would like to delete his answer
   in order to seek help from community
-} do
+' do
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario "User tries to delete his answer", js: true do
+  scenario 'User tries to delete his answer', js: true do
     sign_in(user)
     visit question_path(question)
     click_on 'Delete'
@@ -26,7 +28,7 @@ feature "User is able to delete his answer", %q{
     end
   end
 
-  scenario "Unauthenticated user tries to delete answer" do
+  scenario 'Unauthenticated user tries to delete answer' do
     visit question_path(question)
 
     within '.answers' do
