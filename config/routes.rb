@@ -3,6 +3,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  resources :attachments, only: :destroy
+
   resources :questions do
     resources :answers, shallow: true, except: %i[index] do
       patch :mark_as_best, on: :member

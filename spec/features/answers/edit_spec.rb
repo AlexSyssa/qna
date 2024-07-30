@@ -18,10 +18,22 @@ I'd like to be able to edit my answer
     expect(page).to_not have_link 'Edit'
   end
 
+  scenario "tries to edit other user's question", js: true do
+    sign_in(other_user)
+    visit question_path(question)
+
+    within '.answers' do
+      expect(page).not_to have_content('Edit')
+    end
+  end
+
   describe 'Authenticated user' do
-    scenario 'edits his answer', js: true do
+    background do
       sign_in user
       visit question_path(question)
+    end
+
+    scenario 'edits his answer', js: true do
       click_on 'Edit'
 
       within '.answers' do
@@ -33,28 +45,32 @@ I'd like to be able to edit my answer
       end
     end
 
-    scenario 'edits his answer with errors', js: true do
+    scenario 'edit answer with attached file', js: true do
+      click_on 'Edit'
+
       within '.answers' do
-        click_on 'Edit'
-        fill_in 'Body', with: ''
-        click_on 'Save'
+        fill_in 'Your answer', with: 'My answer'
 
-        expect(page).to have_content(answer.body)
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Update'
       end
 
-      within '.answer-errors' do
-        expect(page).to have_content("Body can't be blank")
-      end
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
 
-    scenario "tries to edit other user's question", js: true do
-      sign_in(other_user)
-
-      visit question_path(question)
+    scenario 'edits his answer by delete attached file' do
+      click_on 'Edit'
 
       within '.answers' do
-        expect(page).not_to have_content('Edit')
+        attach_file 'Files', "#{Rails.root}/spec/rails_helper.rb"
+        click_on 'Update'
+
+        click_on 'Delete File'
       end
+
+      expect(page).to_not have_link 'rails_helper.rb'
+      expect(page).to have_content('Attachment was successfully deleted.')
     end
   end
 end
