@@ -12,7 +12,6 @@ feature 'User can view a list of questions', "
   given!(:answers) { create_list(:answer, 3, question: question) }
 
   scenario 'User views a list of questions' do
-    sign_in user
     visit questions_path
 
     questions.each do |question|
@@ -21,7 +20,6 @@ feature 'User can view a list of questions', "
   end
 
   scenario 'Answers for this question' do
-    sign_in user
     visit questions_path
 
     answers.each do |answer|
