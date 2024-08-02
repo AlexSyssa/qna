@@ -5,14 +5,9 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[update destroy mark_as_best]
   before_action :authenticate_user!, except: %i[show]
 
-  def show
-  end
+  def show; end
 
-  def index
-  end
-
-  def edit
-  end
+  def edit; end
 
   def new
     @answer = @question.answers.new
@@ -90,7 +85,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best)
+    params.require(:answer).permit(:body, :best, files: [])
   end
 
   def find_question
@@ -98,6 +93,6 @@ class AnswersController < ApplicationController
   end
 
   def find_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.with_attached_files.find(params[:id])
   end
 end

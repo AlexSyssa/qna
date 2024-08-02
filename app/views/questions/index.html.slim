@@ -5,5 +5,8 @@ p= link_to 'Log in', new_user_session_path, method: :post
 
 - @questions.each do |q|
   p= link_to q.title, q
+  - if current_user && current_user.author?(q)
+    p= link_to 'Edit', edit_question_path(q), data: { question_id: q.id }
+    p= button_to 'Delete', question_path(q), method: :delete
 
 p= link_to 'Ask question', new_question_path

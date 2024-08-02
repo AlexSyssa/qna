@@ -6,6 +6,10 @@ p= button_to 'Log out', destroy_user_session_path, method: :delete
   h1= @question.title
   p= @question.body
 
+  - if @question.files.attached?
+    -@question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+
   h4 Answers
 
   - @question.answers.each do |answer|
@@ -19,11 +23,22 @@ p= button_to 'Log out', destroy_user_session_path, method: :delete
         = button_to 'Mark as Best', mark_as_best_answer_path(answer), method: :patch, remote: true
 
       = form_with model: answer, local: false, remote: true do |f|
-        = f.label :body, 'Your answer'
-        = f.text_area :body
-        = f.submit 'Update'
+        p
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+          = f.submit 'Update'
+
+      - if answer.files.attached?
+        - answer.files.each do |file|
+          p= link_to file.filename.to_s, url_for(file)
+          - if current_user&.author?(answer)
+            p = button_to 'Delete File', attachment_path(file.id), method: :delete, remote: true, data: {confirm: 'Are you sure?'}
+
       - if current_user.author?(answer)
-        = button_to 'Delete', answer_path(answer), method: :delete
+        = button_to 'Delete Answer', answer_path(answer), method: :delete
 
   br
     h4 New Answer
@@ -34,8 +49,12 @@ p= button_to 'Log out', destroy_user_session_path, method: :delete
   .answer
 
   = form_with(model: @answer, url: question_answers_path(@question), local: false, remote: true, class: 'new-answer') do |f|
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Create'
+    p
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true
+    p= f.submit 'Create'
 
 p= link_to 'Back', root_path

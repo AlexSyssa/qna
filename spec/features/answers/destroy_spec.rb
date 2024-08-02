@@ -14,7 +14,7 @@ feature 'User is able to delete his answer', '
   scenario 'User tries to delete his answer', js: true do
     sign_in(user)
     visit question_path(question)
-    click_on 'Delete'
+    click_on 'Delete Answer'
 
     expect(page).to_not have_content answer.body
   end
@@ -23,16 +23,12 @@ feature 'User is able to delete his answer', '
     sign_in(other_user)
     visit question_path(question)
 
-    within '.answers' do
-      expect(page).not_to have_content('Delete')
-    end
+    expect(page).not_to have_content('Delete Answer')
   end
 
   scenario 'Unauthenticated user tries to delete answer' do
     visit question_path(question)
 
-    within '.answers' do
-      expect(page).not_to have_content('Delete')
-    end
+    expect(page).not_to have_content('Delete Answer')
   end
 end

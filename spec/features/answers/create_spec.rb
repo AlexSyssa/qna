@@ -10,25 +10,36 @@ feature 'User can give an answer', '
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user create answer', js: true do
-    sign_in(user)
-    visit question_path(question)
-
-    fill_in 'Your answer', with: 'My answer'
-    click_on 'Create'
-
-    expect(current_path).to eq question_path(question)
-    within '.answers' do
-      expect(page).to have_content 'My answer'
+  describe 'Authenticated user' do
+    background do
+      sign_in(user)
+      visit question_path(question)
     end
-  end
 
-  scenario 'Authenticated user creates answer with errors', js: true do
-    sign_in(user)
-    visit question_path(question)
+    scenario 'create answer', js: true do
+      fill_in 'Your answer', with: 'My answer'
+      click_on 'Create'
 
-    click_on 'Create'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'My answer'
+      end
+    end
 
-    expect(page).to have_content "Body can't be blank"
+    scenario 'create answer with attached file', js: true do
+      fill_in 'Your answer', with: 'My answer'
+
+      attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Create'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'creates answer with errors', js: true do
+      click_on 'Create'
+
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 end
