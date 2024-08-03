@@ -10,6 +10,12 @@ p= button_to 'Log out', destroy_user_session_path, method: :delete
     -@question.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
 
+.Links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url
+
   h4 Answers
 
   - @question.answers.each do |answer|

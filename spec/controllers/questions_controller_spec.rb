@@ -27,6 +27,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'assigns a new question in @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
+
+    it 'assigns a new question in @question' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
+    end
   end
 
   describe 'POST #create' do
