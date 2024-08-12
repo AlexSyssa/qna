@@ -74,6 +74,7 @@ class AnswersController < ApplicationController
       @answer.mark_as_best
       @question = @answer.question
       @answers = @answer.question.answers.sort_by_best
+      # @question.award&.update!(user: user)
       redirect_to @question, notice: 'This answer is selected as best'
     else
       flash[:alert] = "You can't select another answer!"

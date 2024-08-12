@@ -15,6 +15,8 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     @question.links.new
+    @question.build_award
+    # @award = Award.new
   end
 
   def create
@@ -58,11 +60,16 @@ class QuestionsController < ApplicationController
   private
 
   def find_question
-    @question = Question.with_attached_files.find(params[:id])
+    @question = Question.includes(:award).with_attached_files.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body,
-                                     files: [], links_attributes: %i[id name url _destroy])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: %i[id name url _destroy],
+                                     award_attributes: %i[name image] )
+    end
+
+  def award_params
+    params.require(:award).permit(:name, :image)
   end
 end

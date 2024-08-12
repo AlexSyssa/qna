@@ -1,5 +1,4 @@
 p= link_to 'Back', root_path
-p= button_to 'Log out', destroy_user_session_path, method: :delete
 
 .question-errors
   p= render 'shared/errors', resource: @question
