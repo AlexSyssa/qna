@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create show]
   before_action :find_answer, only: %i[update destroy mark_as_best]
@@ -14,7 +12,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
     if @answer.save
@@ -85,7 +83,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best, files: [])
+    params.require(:answer).permit(:body, :best, files: [], links_attributes: %i[id name url _destroy])
   end
 
   def find_question

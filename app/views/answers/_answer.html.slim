@@ -1,0 +1,35 @@
+ul
+  li
+    p= "Best Answer" if answer.best
+    p= answer.body
+
+  .files
+    p Files:
+    ul
+    p= render 'shared/files', resource: answer
+
+  .links
+    - if answer.links.present?
+      - answer.links.each do |link|
+        p= render 'shared/link', link: link
+
+  - if !answer.best? && current_user&.author?(answer.question)
+    p= button_to 'Mark as Best', mark_as_best_answer_path(answer), method: :patch, remote: true
+
+  - if current_user.author?(answer)
+    p= button_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
+
+  = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id } if current_user&.author?(answer)
+  = render 'shared/errors', resource: answer
+  = form_with model: answer, local: false, remote: true do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+    p
+    .attachable-links
+      = f.fields_for :links do |l|
+        = render 'shared/link_fields', f: l
+        .Add_links
+          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+    = f.submit 'Update Answer'

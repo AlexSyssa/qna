@@ -1,6 +1,5 @@
 = render 'shared/errors', resource: @question
 = render 'shared/flash'
-p= render 'question', question: @question
-
+p= render 'form', question: @question
 
 p= button_to 'Log out', destroy_user_session_path, method: :delete

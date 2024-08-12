@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Qna</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+  <html>
+    <head>
+      <title>Qna</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      <%= javascript_importmap_tags %>
+      <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/7/4qfWOh5wXUciZ8czG+tbvd2+x3bXntkeaDS9" crossorigin="anonymous"></script>
-  </head>
-
+  <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/7/4qfWOh5wXUciZ8czG+tbvd2+x3bXntkeaDS9" crossorigin="anonymous"></script>-->
+    </head>
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>

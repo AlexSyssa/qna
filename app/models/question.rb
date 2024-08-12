@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
 
   has_many_attached :files
-  has_many :links, dependent: :destroy
+  has_many :links, dependent: :destroy, as: :linkable
 
   belongs_to :user
 
