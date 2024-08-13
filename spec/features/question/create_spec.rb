@@ -43,6 +43,17 @@ feature 'User can create question', "
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'Asks questions with an award' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      fill_in 'Award', with: 'Name Award'
+      fill_in 'Image', with: 'https://ru.wikipedia.org/wiki/Звезда#/media/Файл:Sun_white.jpg'
+      click_on 'Ask'
+
+      expect(page).to have_content 'best answer award!'
+    end
   end
 
   scenario 'Unauthenticated user tries to ask a question' do

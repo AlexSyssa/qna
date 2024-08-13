@@ -1,60 +1,34 @@
-p= button_to 'Log out', destroy_user_session_path, method: :delete
-
-= render 'shared/errors', resource: @question
-
-.question data-question-id="#{@question.id}"
-  h1= @question.title
-  p= @question.body
-
-  - if @question.files.attached?
-    -@question.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
-
-  h4 Answers
-
-  - @question.answers.each do |answer|
-    .answers
-      p= answer.body
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id } if current_user&.author?(answer)
-      br
-      = "Best Answer" if answer.best
-      br
-      - if !answer.best? && current_user&.author?(answer.question)
-        = button_to 'Mark as Best', mark_as_best_answer_path(answer), method: :patch, remote: true
-
-      = form_with model: answer, local: false, remote: true do |f|
-        p
-          = f.label :body, 'Your answer'
-          = f.text_area :body
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true
-          = f.submit 'Update'
-
-      - if answer.files.attached?
-        - answer.files.each do |file|
-          p= link_to file.filename.to_s, url_for(file)
-          - if current_user&.author?(answer)
-            p = button_to 'Delete File', attachment_path(file.id), method: :delete, remote: true, data: {confirm: 'Are you sure?'}
-
-      - if current_user.author?(answer)
-        = button_to 'Delete Answer', answer_path(answer), method: :delete
-
-  br
-    h4 New Answer
-
-  .answers-errors
-    = render 'shared/errors', resource: @answer
-
-  .answer
-
-  = form_with(model: @answer, url: question_answers_path(@question), local: false, remote: true, class: 'new-answer') do |f|
-    p
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true
-    p= f.submit 'Create'
-
 p= link_to 'Back', root_path
+
+.question-errors
+  p= render 'shared/errors', resource: @question
+
+.flash
+  p= render 'shared/flash'
+
+h3 Question
+.question
+  =render @question
+  p= link_to 'Back to questions', questions_path, local: true
+
+h3 Answers
+.answers
+  - @question.answers.each do |answer|
+    = render answer
+
+h4 New Answer
+.answers-errors
+  = render 'shared/errors', resource: @answer
+
+.answer
+  = form_with(model: @answer, url: question_answers_path(@question), local: false, remote: true, class: 'new-answer') do |f|
+    = f.label :body, 'Answer:'
+    = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true
+    .attachable-links
+      = f.fields_for :links do |l|
+        = render 'shared/link_fields', f: l
+        .Add_links
+          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+      = f.submit 'Create Answer'

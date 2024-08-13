@@ -1,14 +1,23 @@
-slim
-  = form_with model: question, local: false, remote: true, html: { id: "edit-question-#{question.id}" } do |f|
-    = f.label :title
-    = f.text_field :title
-    = f.label :body, 'Your question'
-    = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true
-    = f.submit
+table
+  tr
+    td Title:
+    td= question.title
+  tr
+    td Body:
+    td= question.body
+
+  .award
+    - if question.award.present?
+      h5 best answer award!
+
+.links
+  - if question.links.present?
+    p Links:
+    ul
+      = render partial: 'shared/link', collection: question.links, as: :link
+
+.files
   - if question.files.attached?
-    - question.files.each do |file|
-      p = link_to file.filename.to_s, url_for(file)
-      - if current_user&.author?(question)
-        p = button_to 'Delete File', attachment_path(file.id), method: :delete, remote: true, data: {confirm: 'Are you sure?'}
+    p Files:
+  ul
+    = render 'shared/files', resource: @question

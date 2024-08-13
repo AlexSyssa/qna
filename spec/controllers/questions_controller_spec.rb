@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:other_user) { create(:user) }
   let(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
 
   before { login(user) }
 
@@ -14,6 +14,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new answer in @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns a link for answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
     end
   end
 
@@ -26,6 +30,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new question in @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns a new question in @question' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
     end
   end
 

@@ -1,3 +1,8 @@
+$(document).on('ajax:beforeSend', function(event) {
+    var token = $('meta[name="csrf-token"]').attr('content');
+    event.target.setRequestHeader('X-CSRF-Token', token);
+});
+
 $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
 $('.flash').html('<%= render 'shared/flash' %>')
 

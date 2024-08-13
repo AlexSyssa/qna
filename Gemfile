@@ -10,9 +10,10 @@ gem 'better_errors', '!= 2.10.0'
 gem 'binding_of_caller'
 gem 'bootsnap', require: false
 gem 'bootstrap'
+gem 'cocoon'
 gem 'devise'
-gem 'importmap-rails'
 gem 'google-cloud-storage'
+gem 'importmap-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'net-http'
@@ -30,9 +31,9 @@ gem 'tzinfo-data', platforms: %i[mswin mswin64 mingw x64_mingw jruby]
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
-  gem 'dotenv-rails'
 end
 
 group :development do

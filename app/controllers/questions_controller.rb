@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :find_question, only: %i[show update edit destroy]
@@ -11,10 +9,13 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answers = @question.answers.sort_by_best
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new
+    @question.build_award
   end
 
   def create
@@ -28,7 +29,9 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @question.links.new
+  end
 
   def update
     if current_user.author?(@question)
@@ -56,10 +59,12 @@ class QuestionsController < ApplicationController
   private
 
   def find_question
-    @question = Question.with_attached_files.find(params[:id])
+    @question = Question.includes(:award).with_attached_files.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: %i[id name url _destroy],
+                                     award_attributes: %i[name image] )
   end
 end

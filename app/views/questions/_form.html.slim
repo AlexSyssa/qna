@@ -1,0 +1,18 @@
+= form_with model: question, local: false, remote: true, html: { id: "edit-question-#{question.id}" } do |f|
+  = f.label :title
+  = f.text_field :title
+  p
+  = f.label :body, 'Your question'
+  = f.text_area :body
+  p
+  = f.label :files
+  = f.file_field :files, multiple: true
+  = render 'shared/files', resource: @question
+  p
+  .attachable-links
+    = f.fields_for :links do |l|
+      = render 'shared/link_fields', f: l
+      .Add_links
+        = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
+  = f.submit
