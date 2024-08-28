@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index]
   before_action :find_question, only: %i[show update edit destroy]
 
@@ -49,7 +51,7 @@ class QuestionsController < ApplicationController
   def destroy
     if current_user.author?(@question)
       @question.destroy
-      flash[:notice] = 'Your question successfully updated'
+      flash[:notice] = 'Your question successfully deleted'
     else
       flash[:alert] = 'Your question could not be destroyed, you are not author of the question'
     end
@@ -65,6 +67,6 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body, files: [],
                                      links_attributes: %i[id name url _destroy],
-                                     award_attributes: %i[name image] )
+                                     award_attributes: %i[name image])
   end
 end

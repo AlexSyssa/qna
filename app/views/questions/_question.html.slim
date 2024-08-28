@@ -6,6 +6,9 @@ table
     td Body:
     td= question.body
 
+  .votes
+    p= render 'shared/vote', resource: question
+
   .award
     - if question.award.present?
       h5 best answer award!

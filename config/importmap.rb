@@ -21,11 +21,14 @@ pin '@rails/ujs', to: 'https://ga.jspm.io/npm:@rails/ujs@7.1.3-4/src/index.js', 
 
 pin '@hotwired/turbo-rails', to: 'https://ga.jspm.io/npm:@hotwired/turbo-rails@8.0.5/dist/turbo.esm.js', preload: true
 
-pin '@nathanvda/cocoon', to: 'https://ga.jspm.io/npm:@nathanvda/cocoon@1.2.14/dist/cocoon.js'
+# pin '@nathanvda/cocoon', to: 'https://ga.jspm.io/npm:@nathanvda/cocoon@1.2.14/dist/cocoon.js'
 
 # my_engine/config/importmap.rb
 
-# pin_all_from File.expand_path("../app/assets/javascripts", __dir__)
-# pin_all_from 'app/javascript/src', under: 'src', to: 'src'
+pin_all_from File.expand_path('../app/assets/javascripts', __dir__)
+pin_all_from 'app/javascript/src', under: 'src', to: 'src'
+pin_all_from 'app/javascript/controllers', under: 'controllers'
+pin_all_from 'app/public/assets/controllers', under: 'controllers'
+pin_all_from 'app/public/assets/utilities', under: 'utilities'
 pin 'utilities/answers', to: 'utilities/answers.js'
 pin 'utilities/questions', to: 'utilities/questions.js'

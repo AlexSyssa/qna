@@ -1,0 +1,11 @@
+.rating
+  .rating id= "#{resource.class.to_s.downcase}-#{resource.id}"
+    table
+      tr
+        td Vote:
+        td= resource.total_rating
+
+  - if !current_user&.author?(resource) && user_signed_in?
+    p= button_to 'Upvote', polymorphic_path([:upvote, resource]), method: :patch, remote: true, data: { type: :json }
+    p= button_to 'Downvote', polymorphic_path([:downvote, resource]), method: :patch, remote: true, data: { type: :json }
+    p= button_to 'Cancel', polymorphic_path([:cancel, resource]), method: :delete, remote: true, data: { type: :json }
