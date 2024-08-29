@@ -6,6 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let!(:question) { create(:question, user: user) }
+  let!(:votable) { create(:answer, question: question) }
 
   before { login(user) }
 
@@ -94,6 +95,68 @@ RSpec.describe AnswersController, type: :controller do
         delete :destroy, params: { id: answer }
 
         expect(response).to redirect_to root_path
+      end
+    end
+  end
+
+  describe 'GET #upvote' do
+    context 'when the user is not the author' do
+      it 'votes up for the votable' do
+        expect { post :upvote, params: { id: votable.id } }.to change { votable.votes.count }.by(1)
+
+        expect(flash[:notice]).to eq('You voted!')
+      end
+    end
+
+    context 'when the user is the author' do
+      before { votable.update(user: user) }
+
+      it 'renders an error' do
+        post :upvote, params: { id: votable.id }
+
+        expect(response.body).to include("You can't vote on your own content")
+      end
+    end
+  end
+
+  describe 'GET #downvote' do
+    context 'when the user is not the author' do
+      it 'votes down for the votable' do
+        expect { post :downvote, params: { id: votable.id } }.to change { votable.votes.count }.by(1)
+
+        expect(flash[:notice]).to eq('You voted!')
+      end
+    end
+
+    context 'when the user is the author' do
+      before { votable.update(user: user) }
+
+      it 'renders an error' do
+        post :downvote, params: { id: votable.id }
+
+        expect(response.body).to include("You can't vote on your own content")
+      end
+    end
+  end
+
+  describe 'POST #cancel' do
+    context 'when the user is not the author' do
+      before { votable.upvote(user) }
+
+      it 'cancels the vote for the votable' do
+        expect { post :cancel, params: { id: votable.id } }.to change { votable.votes.count }.by(-1)
+
+        expect(flash[:notice]).to eq('Your vote successfully updated')
+      end
+    end
+
+    context 'when the user is the author' do
+      before { votable.update(user: user) }
+
+      it 'renders an error' do
+        post :cancel, params: { id: votable.id }
+
+        expect(response.body).to include("You can't vote on your own content")
       end
     end
   end

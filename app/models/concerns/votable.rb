@@ -5,12 +5,16 @@ module Votable
     has_many :votes, as: :votable, dependent: :destroy
   end
 
+  def vote(user, value)
+    votes.create!(user: user, value: value) unless votes.exists?(user: user)
+  end
+
   def upvote(user)
-    votes.create!(user: user, value: 1) unless votes.exists?(user: user)
+    vote(user, 1)
   end
 
   def downvote(user)
-    votes.create!(user: user, value: -1) unless votes.exists?(user: user)
+    vote(user, -1)
   end
 
   def cancel_vote(user)

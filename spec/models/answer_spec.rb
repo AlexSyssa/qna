@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  it_behaves_like 'votable' do
+    let!(:question) { create(:question) }
+    let!(:votable) { create(:answer, question: question) }
+  end
+
   it { should belong_to :question }
   it { should belong_to(:user) }
   it { should have_many(:links).dependent(:destroy) }
