@@ -1,6 +1,8 @@
 class Question < ApplicationRecord
 
-  has_one :award,          dependent: :destroy
+  include Votable
+
+  has_one :award,         dependent: :destroy
   has_many :answers,       dependent: :destroy
   has_many :links,         dependent: :destroy, as: :linkable
 

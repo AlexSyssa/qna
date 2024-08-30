@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: %i[new create show]
+  include Voted
+
+  before_action :find_question, only: %i[new create show ]
   before_action :find_answer, only: %i[update destroy mark_as_best]
   before_action :authenticate_user!, except: %i[show]
 

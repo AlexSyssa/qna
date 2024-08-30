@@ -11,6 +11,7 @@ gem 'binding_of_caller'
 gem 'bootsnap', require: false
 gem 'bootstrap'
 gem 'cocoon'
+gem 'concurrent-ruby'
 gem 'devise'
 gem 'google-cloud-storage'
 gem 'importmap-rails'

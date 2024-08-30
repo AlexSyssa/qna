@@ -3,6 +3,9 @@ ul
     p= "Best Answer" if answer.best
     p= answer.body
 
+    .votes_answer
+      p= render 'shared/vote', resource: answer
+
   .files
     p Files:
     ul
